@@ -1,9 +1,9 @@
-import { randomUUID } from "crypto";
-import { FastifyInstance } from "fastify";
-import { createWriteStream } from "fs";
+import { randomUUID } from "node:crypto";
 import { extname, resolve } from "node:path";
+import { FastifyInstance } from "fastify";
+import { createWriteStream } from "node:fs";
 import { pipeline } from "node:stream";
-import { promisify } from "util";
+import { promisify } from "node:util";
 
 const pump = promisify(pipeline);
 
@@ -32,7 +32,7 @@ export async function uploadRoutes(app: FastifyInstance) {
     const fileName = fileId.concat(extension);
 
     const writeStream = createWriteStream(
-      resolve("__dirname", "../../uploads/", fileName)
+      resolve(__dirname, "../../uploads/", fileName)
     );
 
     await pump(upload.file, writeStream);
